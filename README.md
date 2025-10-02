@@ -23,7 +23,7 @@ This project is a simple demo of **Event Sourcing** using **Laravel** with **Bre
 
 1. Clone the repository:
 
-   git clone https://github.com/your-username/eventos-demo.git
+   git clone https://github.com/sebasttti/sabana-event-sourcing
    cd eventos-demo
 
 2. Install PHP dependencies:
