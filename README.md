@@ -1,11 +1,8 @@
-# sabana-event-sourcing
-Example of Event Sourcign for Diploma in Software Arquitecture
-
-Demo of Event Sourcing with Laravel Breeze
+Demo of Event Sourcing for Universidad de la Sabana
 =================================================
 
 This project is a simple demo of **Event Sourcing** using **Laravel** with **Breeze** (Tailwind included).  
-**SQLite** is used as the source of truth, and a basic form is provided to register events.
+**SQLite** is used as the source of truth, and a basic form is provided to register events, as an exercise of Diploma in Software Arquitecture from Universidad de la Sabana
 
 -------------------------------------------------
 
