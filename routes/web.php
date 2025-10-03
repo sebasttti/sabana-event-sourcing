@@ -18,6 +18,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('orders/regenerate', [OrderController::class, 'regenerate'])
+     ->name('orders.regenerate');
+
+Route::get('orders/destroyViewDatabase', [OrderController::class, 'destroyViewDatabase'])
+     ->name('orders.destroyViewDatabase');
+
 Route::resource('orders', OrderController::class);
+
+
+
 
 require __DIR__.'/auth.php';

@@ -10,7 +10,14 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <form action="{{ route('orders.store') }}" method="POST" class="space-y-4 bg-gray-500 p-6 rounded shadow">
+
+            @if(session('success'))
+                <div class="mb-4 p-4 bg-green-500 rounded">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form action="{{ route('orders.store') }}" method="POST" class="space-y-4 bg-gray-500  p-6 rounded shadow">
                 @csrf
                 <div>
                     <label>{{ __('User') }}</label>
@@ -31,7 +38,7 @@
                     <input type="number" step="0.01" name="total" class="border rounded w-full p-2">
                 </div>
 
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">{{ __('Save') }}</button>
+                <button type="submit" class="bg-blue-500 px-4 py-2 rounded">{{ __('Save') }}</button>
             </form>
         </div>
     </div>

@@ -24,6 +24,14 @@
                     <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
                         {{ __('View :name', ['name' => __('Orders')]) }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('orders.destroyViewDatabase')" :active="request()->routeIs('orders.destroyViewDatabase')">
+                        {{ __('Destroy View Database') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('orders.regenerate')" :active="request()->routeIs('orders.regenerate')">
+                        {{ __('Regenerate :name', ['name' => __('Orders')]) }}
+                    </x-nav-link>
                 </div>
 
 
