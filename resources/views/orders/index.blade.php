@@ -22,7 +22,7 @@
                             <tr>
                                 <td class="border px-4 py-2">{{ $order['id'] }}</td>
                                 <td class="border px-4 py-2">{{ $order['user']['name'] ?? 'N/A' }}</td>
-                                <td class="border px-4 py-2">{{ $order['status'] }}</td>
+                                <td class="border px-4 py-2">{{ $order['status_id'] }}</td>
                                 <td class="border px-4 py-2">{{ $order['total'] }}</td>
                             </tr>
                         @endforeach

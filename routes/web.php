@@ -24,6 +24,9 @@ Route::get('orders/regenerate', [OrderController::class, 'regenerate'])
 Route::get('orders/destroyViewDatabase', [OrderController::class, 'destroyViewDatabase'])
      ->name('orders.destroyViewDatabase');
 
+Route::get('orders/lists', [OrderController::class, 'lists'])
+     ->name('orders.lists');
+
 Route::resource('orders', OrderController::class);
 
 

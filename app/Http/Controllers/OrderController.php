@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +31,8 @@ class OrderController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('orders.create', compact('users'));
+        $statuses = Status::all();
+        return view('orders.create', compact('users','statuses'));
     }
 
     /**
@@ -41,12 +43,12 @@ class OrderController extends Controller
             // 1. Validar los datos
     $validated = $request->validate([
         'user_id' => 'required|exists:users,id',
-        'status'  => 'required|string|max:255',
+        'status_id'  => 'required',
         'total'   => 'required|numeric|min:0',
     ]);
 
     // 2. Crear la orden
-    $order = Order::create($validated);
+    $order = Order::create($validated);  
 
     // 3. Redirigir con mensaje de éxito
     return redirect()->route('orders.create')
@@ -105,5 +107,13 @@ class OrderController extends Controller
     Storage::disk('public')->put('view_database.json', $jsonData);
 
         return view('orders.regenerate');
+    }
+
+    public function lists()
+    {
+        $users = User::all();
+        $statuses = Status::all(); // para construir dinámicamente las columnas
+        
+        return view('orders.lists',compact('users','statuses'));
     }
 }
