@@ -32,7 +32,7 @@ class OrderController extends Controller
     {
         $users = User::all();
         $statuses = Status::all();
-        return view('orders.create', compact('users','statuses'));
+        return view('orders.create', compact('users', 'statuses'));
     }
 
     /**
@@ -40,19 +40,19 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-            // 1. Validar los datos
-    $validated = $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'status_id'  => 'required',
-        'total'   => 'required|numeric|min:0',
-    ]);
+        // 1. Validar los datos
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'status_id'  => 'required',
+            'total'   => 'required|numeric|min:0',
+        ]);
 
-    // 2. Crear la orden
-    $order = Order::create($validated);  
+        // 2. Crear la orden
+        $order = Order::create($validated);
 
-    // 3. Redirigir con mensaje de éxito
-    return redirect()->route('orders.create')
-                     ->with('success', __('Order created successfully.'));
+        // 3. Redirigir con mensaje de éxito
+        return redirect()->route('orders.create')
+            ->with('success', __('Order created successfully.'));
     }
 
     /**
@@ -98,13 +98,13 @@ class OrderController extends Controller
     public function regenerate()
     {
         // 1. Obtener todas las órdenes
-    $orders = Order::with('user')->get();
+        $orders = Order::with('user')->get();
 
-    // 2. Convertir a JSON con formato bonito
-    $jsonData = $orders->toJson(JSON_PRETTY_PRINT);
+        // 2. Convertir a JSON con formato bonito
+        $jsonData = $orders->toJson(JSON_PRETTY_PRINT);
 
-    // 3. Guardar en storage/app/public/view_database.json
-    Storage::disk('public')->put('view_database.json', $jsonData);
+        // 3. Guardar en storage/app/public/view_database.json
+        Storage::disk('public')->put('view_database.json', $jsonData);
 
         return view('orders.regenerate');
     }
@@ -113,7 +113,33 @@ class OrderController extends Controller
     {
         $users = User::all();
         $statuses = Status::all(); // para construir dinámicamente las columnas
-        
-        return view('orders.lists',compact('users','statuses'));
+
+        // 1. Leer el archivo JSON desde storage
+        $json = Storage::disk('public')->get('view_database.json');
+
+        // 2. Convertir a arreglo de PHP
+        $orders = json_decode($json, true);
+
+        $orders_collection = collect($orders);
+
+
+        $users_with_orders = $orders_collection
+            ->groupBy('user_id')
+            ->map(function ($userOrders) {
+                $user = $userOrders->first()['user'];
+                $statusCounts = $userOrders
+                    ->groupBy('status_id')
+                    ->map->count();
+
+                return [
+                    'user_id' => $user['id'],
+                    'user_name' => $user['name'],
+                    'orders_by_status' => $statusCounts,
+                    'total_orders' => $userOrders->count(),
+                ];
+            })
+            ->values();
+
+        return view('orders.lists',compact('users_with_orders','statuses'));
     }
 }
